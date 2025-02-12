@@ -15,50 +15,58 @@ const chartData = [
   { value: 55, color: "#F8B324", label: "Ақлий салоҳият ва мантиқий фикрлаш" },
 ];
 
-const ApexCharts = () => {
-  return (
-    <div className="grid grid-cols-3 gap-6 max-w-lg mx-auto">
-      {chartData.map((item, index) => {
-        const options = {
-          chart: { type: "radialBar", sparkline: { enabled: true } },
-          plotOptions: {
-            radialBar: {
-              startAngle: -90,
-              endAngle: 90,
-              track: { background: "#e7e7e7", strokeWidth: "97%", margin: 7 },
-              dataLabels: {
-                value: { fontSize: "24px", color: "#000", fontWeight: "bold" },
+const ApexCharts = () => (
+  <div className="grid grid-cols-3 gap-6 max-w-lg mx-auto">
+    {chartData.map((item, index) => (
+      <div key={index} className="flex flex-col items-center w-40">
+        <ReactApexChart
+          options={{
+            chart: { type: "radialBar", sparkline: { enabled: true } },
+            plotOptions: {
+              radialBar: {
+                startAngle: 0,
+                endAngle: 360,
+                track: { background: "#e7e7e7", strokeWidth: "97%", margin: 7 },
+                dataLabels: {
+                  value: {
+                    fontSize: "16px",
+                    color: "#000",
+                    fontWeight: "bold",
+                    show: true,
+                    formatter: (val) => `${val}%`,
+                  },
+                },
               },
             },
-          },
-          fill: { gradient: { shade: "dark", gradientToColors: [item.color], stops: [0, 100] } },
-          colors: [item.color],
-        };
-        return (
-          <div key={index} className="flex flex-col items-center w-40">
-            <ReactApexChart options={options} series={[item.value]} type="radialBar" width={180} />
-            <p className="mt-2 text-center text-sm font-medium text-gray-700">{item.label}</p>
-          </div>
-        );
-      })}
-    </div>
-  );
-};
+            fill: { colors: [item.color] },
+            colors: [item.color],
+          }}
+          series={[item.value]}
+          type="radialBar"
+          width={180}
+        />
+        <p className="mt-2 text-center text-sm font-medium text-gray-700">{item.label}</p>
+      </div>
+    ))}
+  </div>
+);
 
-const LineChart = () => {
-  const options = {
-    chart: { type: "line", toolbar: { show: false } },
-    stroke: { curve: "smooth", width: 2 },
-    markers: { size: 4, colors: ["#007bff"] },
-    xaxis: { categories: ["12.06", "18.06", "03.07", "13.07", "14.07", "20.07", "24.07"] },
-    yaxis: { min: 0, max: 100 },
-    grid: { borderColor: "#e7e7e7" },
-  };
-
-  const series = [{ name: "Data", data: [5, 30, 50, 75, 20, 40, 60] }];
-
-  return <ReactApexChart options={options} series={series} type="line" width={360} height={240} />;
-};
+const LineChart = () => (
+  <ReactApexChart
+    options={{
+      chart: { type: "line", toolbar: { show: false } },
+      stroke: { curve: "smooth", width: 2 },
+      markers: { size: 4, colors: ["#007bff"] },
+      xaxis: { categories: ["12.06", "18.06", "03.07", "13.07", "14.07", "20.07", "24.07"] },
+      yaxis: { min: 0, max: 100 },
+      grid: { borderColor: "#e7e7e7" },
+    }}
+    series={[{ data: [5, 30, 50, 75, 20, 40, 60] }]}
+    type="line"
+    width={360}
+    height={240}
+  />
+);
 
 function Default() {
   return (
